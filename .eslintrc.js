@@ -6,9 +6,11 @@ module.exports = {
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
+    'airbnb-typescript/base',
   ],
   root: true,
   env: {
@@ -16,9 +18,29 @@ module.exports = {
     jest: true,
   },
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": "off",
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "error",
+    "class-methods-use-this": "off",
+    "no-prototype-builtins": "off",
+    "no-restricted-syntax": "off",
+    "no-underscore-dangle": "off",
+    "import/no-cycle": "off",
+    "guard-for-in": "off",
+    "no-plusplus": "off",
+    "no-use-before-define": [
+      "error",
+      { functions: false, classes: true, variables: true },
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      { allowExpressions: true, allowTypedFunctionExpressions: true },
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      { functions: false, classes: true, variables: true, typedefs: true },
+    ],
+
   },
 };
