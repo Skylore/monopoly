@@ -1,8 +1,8 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 const options = new DocumentBuilder()
-  .setTitle('API Документация')
-  .setDescription('Точки доступа к CPA')
+  .setTitle('MonopolyAPI')
+  .setDescription('Api points to MonopolyAPI')
   .setVersion('1.0')
   .build();
 
