@@ -1,6 +1,6 @@
 import {
-  Column, Entity, Index,
-  PrimaryGeneratedColumn,
+  Column, CreateDateColumn, Entity, Index,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import { IsBoolean } from 'class-validator';
 
@@ -19,4 +19,10 @@ export class Session {
   @Column({ width: 1, default: true })
   @IsBoolean()
   isActive: boolean;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }
