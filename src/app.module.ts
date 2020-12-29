@@ -3,7 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SessionModule } from './session/session.module';
+import { SessionModule } from './api/session/session.module';
+import { BindingModule } from './api/binding/binding.module';
+import { CardModule } from './api/card/card.module';
+import { ChainingModule } from './api/chaining/chaining.module';
+import { GroupModule } from './api/group/group.module';
+import { PlayerModule } from './api/player/player.module';
+import { UserModule } from './api/user/user.module';
+import { JwtStrategy } from './api/user/strategy/jwt.strategy';
 
 @Module({
   imports: [
@@ -28,9 +35,15 @@ import { SessionModule } from './session/session.module';
         migrationsDir: 'src/db/migrations',
       },
     }),
+    UserModule,
+    CardModule,
+    GroupModule,
+    PlayerModule,
     SessionModule,
+    BindingModule,
+    ChainingModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule {}
