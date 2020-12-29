@@ -40,6 +40,10 @@ export class SessionService extends TypeOrmCrudService<Session> {
       { relations: ['players'] },
     );
 
+    if (!session.isActive) {
+      throw new BadRequestException('Session is closed');
+    }
+
     const playerInSession = session.players?.find((p) => p?.userId === user.id);
     if (playerInSession) {
       return this.jwtService.sign({
