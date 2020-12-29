@@ -1,4 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller, Get, Post, Request, UseGuards,
+} from '@nestjs/common';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { Card } from './card.entity';
 import { CardService } from './card.service';
@@ -7,16 +10,18 @@ import { CheckoutAnswerDto } from './dto/checkout-answer.dto';
 import { BuyDto } from './dto/buy.dto';
 import { BuildDto } from './dto/build.dto';
 import { DepositDto } from './dto/deposit.dto';
+import { JwtAuthGuard } from '../user/guard/jwt-auth.guard';
 
 @Crud({
   model: {
     type: Card,
   },
 })
-@Controller('cards')
+@Controller('card')
 export class CardController implements CrudController<Card> {
   constructor(public service: CardService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/checkout')
   async checkout(checkout: CheckoutDto): Promise<CheckoutAnswerDto> {
     console.log(checkout);
@@ -24,13 +29,16 @@ export class CardController implements CrudController<Card> {
     return null;
   }
 
-  @Get('/buy')
-  async buy(buy: BuyDto): Promise<Card> {
-    console.log(buy);
-
-    return null;
+  @UseGuards(JwtAuthGuard)
+  @Post('/buy')
+  async buy(
+    @Request() req,
+      @Body() buy: BuyDto,
+  ): Promise<Card> {
+    return this.service.buy(buy, req.user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/build')
   async build(build: BuildDto): Promise<Card> {
     console.log(build);
@@ -38,6 +46,7 @@ export class CardController implements CrudController<Card> {
     return null;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/deposit')
   async deposit(deposit: DepositDto): Promise<Card> {
     console.log(deposit);

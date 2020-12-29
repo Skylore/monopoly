@@ -8,7 +8,6 @@ import { UserModule } from '../user/user.module';
 import { SessionService } from './session.service';
 import { PlayerModule } from '../player/player.module';
 import { SessionController } from './session.controller';
-import { JwtSessionAuthGuard } from './guard/jwt-session-auth.guard';
 
 @Module({
   imports: [
@@ -25,6 +24,7 @@ import { JwtSessionAuthGuard } from './guard/jwt-session-auth.guard';
     PlayerModule,
   ],
   controllers: [SessionController],
-  providers: [SessionService, JwtSessionAuthGuard],
+  providers: [SessionService],
+  exports: [SessionService],
 })
 export class SessionModule {}

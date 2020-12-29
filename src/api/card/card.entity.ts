@@ -8,6 +8,8 @@ import { CardStatusEnum } from './enums/card-status.enum';
 import { ChanceActionsEnum } from './enums/chance-actions.enum';
 import { Session } from '../session/session.entity';
 import { Player } from '../player/player.entity';
+import { Chaining } from '../chaining/chaining.entity';
+import { Group } from '../group/group.entity';
 
 @Entity('Card')
 export class Card {
@@ -74,9 +76,6 @@ export class Card {
   @IsInt()
   skyscraperFee: number;
 
-  @OneToOne(() => Binding)
-  binding: Binding;
-
   @Column({
     type: 'enum',
     enum: CardStatusEnum,
@@ -90,6 +89,19 @@ export class Card {
     nullable: true,
   })
   chanceAction: ChanceActionsEnum;
+
+  @OneToOne(() => Binding, (binding) => binding.card)
+  binding: Binding;
+
+  @Column('int')
+  @IsInt()
+  chainingId: number;
+
+  @OneToOne(() => Chaining, (chaining) => chaining.card)
+  chaining: Chaining;
+
+  @ManyToOne(() => Group, (group) => group.cards, { eager: true })
+  group: Group;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
