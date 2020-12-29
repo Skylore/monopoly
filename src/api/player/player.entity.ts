@@ -21,6 +21,10 @@ export class Player {
   @IsString()
   nick: string;
 
+  @Column('int', { default: 1500 })
+  @IsInt()
+  cash: number;
+
   @Column('int', { default: 0 })
   @IsInt()
   position: number;

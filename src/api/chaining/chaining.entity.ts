@@ -1,6 +1,6 @@
 import {
-  Column, CreateDateColumn, Entity, OneToMany,
-  OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
+  Column, CreateDateColumn, Entity, JoinColumn, ManyToOne,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import { IsInt } from 'class-validator';
 import { Card } from '../card/card.entity';
@@ -15,15 +15,20 @@ export class Chaining {
   @IsInt()
   cardId: number;
 
-  @OneToOne(() => Card, (card) => card.binding)
+  @ManyToOne(() => Card, (card) => card.chaining, { eager: true })
+  @JoinColumn()
   card: Card;
 
   @Column('int')
   @IsInt()
   groupId: number;
 
-  @OneToMany(() => Group, (group) => group.chainings)
+  @ManyToOne(() => Group, (group) => group.chainings, { eager: true })
+  @JoinColumn()
   group: Group;
+
+  @Column('int', { default: 10 })
+  sort: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
