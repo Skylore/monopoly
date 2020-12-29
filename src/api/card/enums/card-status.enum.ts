@@ -5,6 +5,6 @@ export enum CardStatusEnum {
   ONE_BUILDING = 'oneBuilding',
   TWO_BUILDINGS = 'twoBuildings',
   THREE_BUILDING = 'threeBuildings',
-  FOUR_BUILDINGS = 'threeBuildings',
+  FOUR_BUILDINGS = 'fourBuildings',
   SKYSCRAPER = 'skyscraperBuildings',
 }

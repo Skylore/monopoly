@@ -8,8 +8,12 @@ import { Player } from './player.entity';
 export class PlayerService extends TypeOrmCrudService<Player> {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(
-  @InjectRepository(Player) repository: Repository<Player>,
+    @InjectRepository(Player) private repository: Repository<Player>,
   ) {
     super(repository);
+  }
+
+  async save(player: Player): Promise<Player> {
+    return this.repository.save(player);
   }
 }

@@ -1,8 +1,12 @@
 import {
-  Column, CreateDateColumn, Entity, Index,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  Column, CreateDateColumn, Entity,
+  Index, OneToMany, OneToOne, PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { IsBoolean } from 'class-validator';
+import { IsBoolean, IsNumber } from 'class-validator';
+import { User } from '../user/user.entity';
+import { Player } from '../player/player.entity';
+import { Card } from '../card/card.entity';
 
 @Entity()
 export class Session {
@@ -16,9 +20,21 @@ export class Session {
   @Column('varchar', { length: 30 })
   name: string;
 
-  @Column({ width: 1, default: true })
+  @IsNumber()
+  hostId: number;
+
+  @OneToOne(() => User)
+  host: User;
+
+  @Column({ width: 1, default: false })
   @IsBoolean()
   isActive: boolean;
+
+  @OneToMany(() => Player, (player) => player.session, { onDelete: 'CASCADE', nullable: true })
+  players: Player[];
+
+  @OneToMany(() => Card, (card) => card.session)
+  cards: Card[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

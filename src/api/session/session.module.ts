@@ -1,14 +1,30 @@
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Session } from './session.entity';
-import { SessionController } from './session.controller';
+import { UserModule } from '../user/user.module';
 import { SessionService } from './session.service';
+import { PlayerModule } from '../player/player.module';
+import { SessionController } from './session.controller';
+import { JwtSessionAuthGuard } from './guard/jwt-session-auth.guard';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Session]),
+    PassportModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+      }),
+      inject: [ConfigService],
+    }),
+    UserModule,
+    PlayerModule,
   ],
   controllers: [SessionController],
-  providers: [SessionService],
+  providers: [SessionService, JwtSessionAuthGuard],
 })
 export class SessionModule {}

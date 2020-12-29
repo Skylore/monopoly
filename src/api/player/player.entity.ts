@@ -1,12 +1,15 @@
 import {
-  Column, CreateDateColumn, Entity, OneToMany,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  Column, CreateDateColumn, Entity, ManyToOne, OneToMany,
+  OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import {
   IsBoolean, IsInt, IsString,
   MaxLength,
 } from 'class-validator';
 import { Binding } from '../binding/binding.entity';
+import { User } from '../user/user.entity';
+import { Session } from '../session/session.entity';
+import { Card } from '../card/card.entity';
 
 @Entity('Player')
 export class Player {
@@ -18,21 +21,35 @@ export class Player {
   @IsString()
   nick: string;
 
-  @Column('int')
+  @Column('int', { default: 0 })
   @IsInt()
   position: number;
 
   @OneToMany(() => Binding, (binding) => binding.player)
   bindings: Binding[];
 
-  // TODO: add user binding
-  // user
+  @Column('int')
+  @IsInt()
+  userId: number;
 
-  @Column('boolean')
+  @OneToOne(() => User)
+  user: User;
+
+  @Column('int')
+  @IsInt()
+  sessionId: number;
+
+  @ManyToOne(() => Session, (session) => session.players)
+  session: Session;
+
+  @OneToMany(() => Card, (card) => card.player)
+  cards: Card[];
+
+  @Column('boolean', { default: false })
   @IsBoolean()
   isParked: boolean;
 
-  @Column('boolean')
+  @Column('boolean', { default: false })
   @IsBoolean()
   isPrisoned: boolean;
 

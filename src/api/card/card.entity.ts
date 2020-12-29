@@ -1,11 +1,13 @@
 import {
-  Column, CreateDateColumn, Entity,
+  Column, CreateDateColumn, Entity, ManyToOne,
   OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
-import { IsInt } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 import { Binding } from '../binding/binding.entity';
 import { CardStatusEnum } from './enums/card-status.enum';
 import { ChanceActionsEnum } from './enums/chance-actions.enum';
+import { Session } from '../session/session.entity';
+import { Player } from '../player/player.entity';
 
 @Entity('Card')
 export class Card {
@@ -15,6 +17,22 @@ export class Card {
   @Column('int')
   @IsInt()
   position: number;
+
+  @Column('int', { nullable: true })
+  @IsOptional()
+  @IsInt()
+  sessionId: number;
+
+  @ManyToOne(() => Session, (session) => session.cards)
+  session: Session;
+
+  @Column('int', { nullable: true })
+  @IsOptional()
+  @IsInt()
+  playerId: number;
+
+  @ManyToOne(() => Player, (player) => player.cards)
+  player: Player;
 
   @Column('int')
   @IsInt()
