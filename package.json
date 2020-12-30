@@ -1,0 +1,15 @@
+{
+  "name": "monopoly-js",
+  "version": "1.0.0",
+  "description": "Javascript implementation of the Monopoly game",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francois-roseberry/monopoly-js.git"
+  },
+  "author": "francois-roseberry",
+  "license": "WTFPL",
+  "dependencies": {
+    "express": "^4.13.1"
+  }
+}
